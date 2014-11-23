@@ -3,6 +3,7 @@ var states = {"AL": "Alabama","AK": "Alaska","AS": "American Samoa","AZ": "Arizo
 var sqlite3 = require('sqlite3'),
 	request = require('request'),
 	cheerio = require('cheerio'),
+	moment = require('moment'),
 	Twit = require('twit'),
 	db = new sqlite3.Database('callsigns.db'),
 	tokens = require('./tokens.js'),
@@ -147,13 +148,6 @@ function tweet(msg, callback) {
 	});
 }
 
-var before_after_the_hour = (Math.random() > 0.5) ? 1 : -1,
-	two_hours = 1000*60*60*2,
-	random_minutes_to_add = ((Math.random() * 20 | 0) + 1)*before_after_the_hour;
-
-random_minutes_to_add = random_minutes_to_add * 60 * 1000;
-
-two_hours = two_hours + random_minutes_to_add;
 
 (function random_one() {
 	one_from_database(function(row) {
@@ -164,8 +158,23 @@ two_hours = two_hours + random_minutes_to_add;
 				console.log(text.length + " characters")
 			}
 			tweet(text, function() {
+
+				var minutes_to_add = ((Math.random() * 15 | 1) + 1) * ((Math.random() > 0.5) ? 1 : -1);
+
+				var future = moment()
+					.add(2, 'hours')
+				// round to nearest hour
+				if (future.minute() > 30) {
+					future.add( 60 - future.minute(), 'minutes' );
+				} else {
+					future.minute(0);
+				}
+				future.add(minutes_to_add, 'minutes'); // add or subtract random amt of minutes from nearest hour
+
+				var ms_from_now = future - moment();
+
 				if (run_in_background === true) {
-					setTimeout(random_one, two_hours);
+					setTimeout(random_one, ms_from_now);
 				}
 			});
 		})
