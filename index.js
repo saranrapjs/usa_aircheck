@@ -141,7 +141,6 @@ function time_at_hour() {
 }
 
 function tweet(msg, callback) {
-	console.log(msg.length + " characters")
 	T.post('statuses/update', { status : msg },
 	function (err, data) {
 	  if (callback) callback();
