@@ -1,0 +1,17 @@
+{
+  "name": "national_aircheck",
+  "version": "1.0.0",
+  "description": "national_aircheck bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.18.0",
+    "request": "^2.48.0",
+    "sqlite3": "^3.0.4",
+    "twit": "^1.1.18"
+  }
+}
