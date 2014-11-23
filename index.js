@@ -159,8 +159,8 @@ two_hours = two_hours + random_minutes_to_add;
 	one_from_database(function(row) {
 		get_station_info(row.fac_callsign, row.fac_service, function(meta) {
 			var text = format_station(row.comm_city, row.comm_state, row.fac_callsign, row.fac_frequency, row.fac_service, meta)
-			console.log(text);
-			if (run_in_background === true) {
+			if (run_in_background === false) {
+				console.log(text);
 				console.log(text.length + " characters")
 			}
 			tweet(text, function() {
